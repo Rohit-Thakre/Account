@@ -30,6 +30,12 @@
 
         <div class="container">
             <h2>Home Page</h2>
+
+            {% if request.user.is_authenticated %}
+
+            <h3>Hello , {{request.user}}</h3>
+            {% endif %}
+
             <a href="{% url 'login' %}">login</a>
             <br>
             <a href="{% url 'register' %}">register</a>
