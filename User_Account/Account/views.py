@@ -61,7 +61,17 @@ def register_method(request):
     return render(request, 'register.html')
 
 def password_change_method(request):
-    return render(request, 'password_reset.html')
+    otp = 123
+
+    if request.method == 'POST':
+
+        user_obj = User.objects.get(email = request.user.email)
+        password = request.POST.get('pass1')
+
+        user_obj.set_password(password)
+        user_obj.save()
+
+    return render(request, 'password_reset.html', {'otp':otp})
 
 
 
