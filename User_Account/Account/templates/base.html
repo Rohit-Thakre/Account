@@ -36,6 +36,8 @@
             <h3>Hello , {{request.user}}</h3>
             {% endif %}
 
+            <a href="{% url 'logout' %}">logout</a>
+            <br>
             <a href="{% url 'login' %}">login</a>
             <br>
             <a href="{% url 'register' %}">register</a>

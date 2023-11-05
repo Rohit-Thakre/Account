@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login, logout
 from .models import User
 
 
@@ -11,7 +11,29 @@ def home(request):
 
 
 def login_method(request):
-    return render(request, 'login.html')
+
+    if request.method == 'POST':
+        email = request.POST.get('email', '')
+        password = request.POST.get('password', '')
+
+        email_check = User.objects.filter(email=email)
+        if email_check:
+            instance = authenticate(email=email, password=password)
+            if instance:
+                login(request, instance)
+                return redirect('home')
+            else:
+                return render(request, 'login.html', {'val': True,  'msg': "Password Incorrect !"})
+
+        else:
+            return render(request, 'login.html', {'val': True,  'msg': "No account with this email"})
+
+    return render(request, 'login.html', {'val': False})
+
+
+def logout_method(request):
+    logout(request)
+    return redirect('home')
 
 
 def register_method(request):
