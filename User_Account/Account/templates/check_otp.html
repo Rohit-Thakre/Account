@@ -33,10 +33,16 @@ password reset
                                 {% csrf_token %}
                                 <div class="form-outline form-white mb-4 mt-2">
                                     <input type="email" id="email" class="form-control form-control-lg" name="email"
-                                        placeholder="Email" />
+                                        placeholder="Email" value="{{email}}" {% if otp %} readonly {% endif %} />
                                 </div>
 
-                                <div class="form-outline form-white mb-4">
+                                <div class="form-outline form-white mb-4 
+                                {% if otp %}
+                                    d-block
+                                    {% else %}
+                                    d-none
+                                {% endif %}
+                                    ">
                                     <input type="number" id="otp" class="form-control form-control-lg" name="otp"
                                         placeholder="OTP" name="password" />
                                 </div>
@@ -84,8 +90,8 @@ password reset
 
 
 
-        if (email.value.trim() == "" || otp.value.trim() == "") {
-            msg_content.innerHTML = "Please Fill both fields!"
+        if (email.value.trim() == "") {
+            msg_content.innerHTML = "Please Fill Email !"
             msg.classList.add('show');
             return false;
         }

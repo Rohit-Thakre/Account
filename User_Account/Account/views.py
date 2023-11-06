@@ -61,14 +61,18 @@ def register_method(request):
     return render(request, 'register.html')
 
 
+import random
 user_obj = None
+otp_gen = random.randrange(100000,999999)
 def check_otp(request):
-    otp_gen = 123
 
     if request.method == 'POST':
-
+        
         email = request.POST.get('email')
         otp = request.POST.get('otp')
+
+        print('generated otp : ', otp_gen)
+            
 
         global user_obj
         user_obj = User.objects.get(email = email)
@@ -77,11 +81,20 @@ def check_otp(request):
         if  not user_obj: 
             return render(request, 'check_otp.html', {'val':True, 'msg':'Email does not exists!'})
 
+        elif not otp: 
+            send_mail_after_registration(email, otp_gen)
+            print('email send step tak aa rha hai')
+            return render(request,'check_otp.html', {'otp' : True, 'email': email})
+    
+
         elif otp_gen == int(otp) : 
+            print('password change page redirect----------')
             return redirect('password_change')
         
         else: 
-            return render(request, 'check_otp.html',{'val':True, 'msg':'Incorrect OTP!'} )
+            print('otp_input \t otp_gen')
+            print(otp, otp_gen)
+            return render(request, 'check_otp.html',{'val':True, 'msg':'Incorrect OTP!', 'otp': True, 'email':email} )
 
       
     return render(request,'check_otp.html')
@@ -104,3 +117,18 @@ def password_change_method(request):
         
 
     return render(request, 'password_reset.html')
+
+
+
+
+from django.conf import settings
+from django.core.mail import send_mail
+def send_mail_after_registration(email , token):
+    subject = 'Your accounts need to be verified'
+    message = f'Hi,\n Here is your OTP : \n {token}'
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = [email]
+    send_mail(subject, message , email_from ,recipient_list )
+
+
+
