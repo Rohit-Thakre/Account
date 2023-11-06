@@ -75,7 +75,7 @@ def check_otp(request):
             
 
         global user_obj
-        user_obj = User.objects.get(email = email)
+        user_obj = User.objects.filter(email = email)
 
 
         if  not user_obj: 
@@ -124,8 +124,8 @@ def password_change_method(request):
 from django.conf import settings
 from django.core.mail import send_mail
 def send_mail_after_registration(email , token):
-    subject = 'Your accounts need to be verified'
-    message = f'Hi,\n Here is your OTP : \n {token}'
+    subject = 'OTP for Password reset.'
+    message = f'Hi,\nHere is your OTP : \n{token}'
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [email]
     send_mail(subject, message , email_from ,recipient_list )

@@ -1,3 +1,5 @@
+{% load socialaccount %}
+
 <!doctype html>
 <html lang="en">
 
@@ -43,6 +45,18 @@
             <a href="{% url 'register' %}">register</a>
             <br>
             <a href="{% url 'check_otp' %}">password change | reset</a>
+            <hr>
+            <h2>Google Login</h2>
+            <a href="{% provider_login_url 'google' %}">Login with google</a>
+            <hr>
+            <hr>
+            <h2>GitHub Login</h2>
+            <a href="{% provider_login_url 'github' %}">Login with github</a>
+            <hr>
+            <hr>
+            <h2>Facebook Login</h2>
+            <a href="{% provider_login_url 'facebook' %}">Login with facebook</a>
+            <hr>
         </div>
 
         {% endblock content %}
