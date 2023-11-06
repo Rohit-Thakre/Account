@@ -12,6 +12,9 @@ urlpatterns = [
     path('login/', views.login_method, name='login'),
     path('logout/', views.logout_method, name='logout'),
     path('register/', views.register_method, name='register'),
+
+    path('otp_check/', views.check_otp, name='check_otp'),
+    
     path('password_change/', views.password_change_method, name='password_change'),
 
 ]

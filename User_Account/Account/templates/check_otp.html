@@ -2,35 +2,34 @@
 
 
 {% block title %}
-login
+password reset
 {% endblock title %}
 
 
 
 {% block content %}
+
 <section class="vh-100 bg-dark">
-    <div class="container py-5 h-100 ">
+    <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                 <div class="card bg-dark text-white border border-2 border-light shadow" style="border-radius: 1rem;">
-
                     <div class="card-body p-5 text-center">
 
                         <div class=" pb-1">
-                            <h2 class=" fw-bold  mt-0 mb-3">LOGIN</h2>
+                            <h2 class=" fw-bold  mt-0 mb-3">Password RESET</h2>
 
 
-                            <div
-                                class="alert alert-danger alert-dismissible fade  m-0 {% if  val %} show   {% endif %}">
-                                <p class="m-0 p-0 h6">{{msg}}</p>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-
+                            <div class="alert alert-danger alert-dismissible fade m-0 
+                                {% if val %}show{% endif %}
+                                " id="msg">
+                                <p class="m-0 p-0 h6" id="msg_content">{{msg}} </p>
+                                <!-- <button type="button" class="btn-close" data-bs-dismiss="alert"></button> -->
                             </div>
 
 
+                            <form action="" onsubmit="return otp_check()" method="post">
 
-                            <form action="" onsubmit="return validate()" method="post">
-                                <!-- <form method="POST"> -->
                                 {% csrf_token %}
                                 <div class="form-outline form-white mb-4 mt-2">
                                     <input type="email" id="email" class="form-control form-control-lg" name="email"
@@ -38,13 +37,15 @@ login
                                 </div>
 
                                 <div class="form-outline form-white mb-4">
-                                    <input type="password" id="password" class="form-control form-control-lg"
-                                        placeholder="Password" name="password" />
+                                    <input type="number" id="otp" class="form-control form-control-lg" name="otp"
+                                        placeholder="OTP" name="password" />
                                 </div>
 
-                                <button class="btn btn-outline-light btn-lg px-5 w-100" type="submit">Login</button>
+                                <button class="btn btn-outline-light btn-lg px-5 w-100" type="submit">Next</button>
 
                             </form>
+
+
 
                             <div class="d-flex justify-content-center text-center mt-5 pt-1">
                                 <a href="#!" class="text-white"><i class="fab fa-facebook-f fa-lg"></i></a>
@@ -54,8 +55,6 @@ login
                         </div>
 
                         <div>
-                            <p class="small mb-2 pb-lg-2"><a class="text-white-50" href="{% url 'check_otp' %}">Forgot
-                                    password?</a></p>
 
                             <p class="mb-0">Don't have an account? <a href="{% url 'register' %}"
                                     class="text-white-50 fw-bold">Sign
@@ -69,28 +68,38 @@ login
     </div>
 </section>
 
+
 {% endblock content %}
 
 
 {% block script %}
 <script>
-    function validate() {
+    function otp_check() {
+
         let email = document.getElementById("email")
-        let password = document.getElementById("password")
+        let otp = document.getElementById("otp")
+
         let mgs = document.getElementById('msg')
         let msg_content = document.getElementById('msg_content')
 
 
-        if (email.value.trim() == "" || password.value.trim() == "") {
+
+        if (email.value.trim() == "" || otp.value.trim() == "") {
             msg_content.innerHTML = "Please Fill both fields!"
-            msg.classList.add('show')
+            msg.classList.add('show');
             return false;
         }
-        else {
-            return true
-        }
 
+        else {
+            msg.classList.remove('show')
+            // unchecked.classList.add('d-none');
+            // checked.classList.remove('d-none');
+            return true
+
+        }
     }
+
+
 </script>
 
 

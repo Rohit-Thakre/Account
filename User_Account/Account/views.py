@@ -60,18 +60,47 @@ def register_method(request):
 
     return render(request, 'register.html')
 
-def password_change_method(request):
-    otp = 123
+
+user_obj = None
+def check_otp(request):
+    otp_gen = 123
 
     if request.method == 'POST':
 
-        user_obj = User.objects.get(email = request.user.email)
-        password = request.POST.get('pass1')
+        email = request.POST.get('email')
+        otp = request.POST.get('otp')
 
-        user_obj.set_password(password)
-        user_obj.save()
-
-    return render(request, 'password_reset.html', {'otp':otp})
+        global user_obj
+        user_obj = User.objects.get(email = email)
 
 
+        if  not user_obj: 
+            return render(request, 'check_otp.html', {'val':True, 'msg':'Email does not exists!'})
 
+        elif otp_gen == int(otp) : 
+            return redirect('password_change')
+        
+        else: 
+            return render(request, 'check_otp.html',{'val':True, 'msg':'Incorrect OTP!'} )
+
+      
+    return render(request,'check_otp.html')
+
+
+
+def password_change_method(request):
+
+    if request.method == 'POST':
+
+        pass1 = request.POST.get('pass1')
+        pass2 = request.POST.get('pass2')
+        if pass1 == pass2:
+            user_obj.set_password(pass1)
+            user_obj.save()
+
+            login(request,user_obj)
+
+            return redirect('home')
+        
+
+    return render(request, 'password_reset.html')
