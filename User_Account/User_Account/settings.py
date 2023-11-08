@@ -171,9 +171,6 @@ AUTHENTICATION_BACKENDS = [
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
     
-
-    
-    
     'twiter': {
         'APP': {
             'client_id': '123',
